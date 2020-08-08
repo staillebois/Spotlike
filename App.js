@@ -17,13 +17,17 @@ import { DrawerContent } from './screens/DrawerContent';
 
 import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
-import SettingsScreen from './screens/SettingsScreen';
 
 import { AuthContext } from './components/context';
 
 import RootStackScreen from './screens/RootStackScreen';
 
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {YellowBox} from 'react-native';
+
+YellowBox.ignoreWarnings(['Animated: `useNativeDriver`']);
+YellowBox.ignoreWarnings(['Animated.event now requires a second argument for options']);
 
 const Drawer = createDrawerNavigator();
 
@@ -161,7 +165,6 @@ const App = () => {
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
           <Drawer.Screen name="SupportScreen" component={SupportScreen} />
-          <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
         </Drawer.Navigator>
       )
     :

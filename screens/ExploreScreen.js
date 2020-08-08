@@ -228,7 +228,8 @@ const ExploreScreen = () => {
             />
             <View style={styles.textContent}>
               <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-              <StarRating ratings={marker.rating} reviews={marker.reviews} />
+              {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
+              <Text numberOfLines={1} style={styles.cardLike}>64 likes</Text>
               <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
               <View style={styles.button}>
                 <TouchableOpacity
@@ -240,7 +241,7 @@ const ExploreScreen = () => {
                 >
                   <Text style={[styles.textSign, {
                     color: '#FF6347'
-                  }]}>Order Now</Text>
+                  }]}>Remove</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -330,13 +331,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   cardtitle: {
-    fontSize: 12,
+    fontSize: 14,
     // marginTop: 5,
     fontWeight: "bold",
   },
   cardDescription: {
     fontSize: 12,
     color: "#444",
+  },
+  cardLike: {
+    fontSize: 12,
+    color: "#444",
+    fontWeight: "bold",
   },
   markerWrap: {
     alignItems: "center",

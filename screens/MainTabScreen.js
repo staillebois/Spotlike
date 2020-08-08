@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,9 +11,9 @@ import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import EditProfileScreen from './EditProfileScreen';
 
-import {useTheme, Avatar} from 'react-native-paper';
-import {View} from 'react-native-animatable';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { useTheme, Avatar } from 'react-native-paper';
+import { View } from 'react-native-animatable';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
@@ -27,32 +27,32 @@ const MainTabScreen = () => (
       name="Home"
       component={HomeStackScreen}
       options={{
-        tabBarLabel: 'Home',
-        tabBarColor: '#FF6347',
-        tabBarIcon: ({color}) => (
+        tabBarLabel: '∘',
+        tabBarColor: '#d02860',
+        tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
         ),
       }}
     />
-        <Tab.Screen
-      name="Notifications"
+    <Tab.Screen
+      name="Top"
       component={ProfileStackScreen}
       options={{
-        tabBarLabel: 'Updates',
-        tabBarColor: '#1f65ff',
-        tabBarIcon: ({color}) => (
-          <MaterialCommunityIcons name="camera-control" color={color} size={26} />
+        tabBarLabel: '∘',
+        tabBarColor: '#FFAB00',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="map-marker-check" color={color} size={26} />
         ),
       }}
     />
     <Tab.Screen
-      name="Profile"
+      name="Camera"
       component={ProfileStackScreen}
       options={{
-        tabBarLabel: 'Profile',
-        tabBarColor: '#694fad',
-        tabBarIcon: ({color}) => (
-          <MaterialCommunityIcons name="account" color={color} size={26} />
+        tabBarLabel: '∘',
+        tabBarColor: '#1f65ff',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="camera-control" color={color} size={26} />
         ),
       }}
     />
@@ -60,10 +60,21 @@ const MainTabScreen = () => (
       name="Explore"
       component={ExploreScreen}
       options={{
-        tabBarLabel: 'Explore',
-        tabBarColor: '#d02860',
-        tabBarIcon: ({color}) => (
+        tabBarLabel: '∘',
+        tabBarColor: '#00897B',
+        tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="map-marker-radius" color={color} size={26} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+      options={{
+        tabBarLabel: '∘',
+        tabBarColor: '#694fad',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="account" color={color} size={26} />
         ),
       }}
     />
@@ -72,8 +83,8 @@ const MainTabScreen = () => (
 
 export default MainTabScreen;
 
-const HomeStackScreen = ({navigation}) => {
-  const {colors} = useTheme();
+const HomeStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -93,7 +104,7 @@ const HomeStackScreen = ({navigation}) => {
         options={{
           title: 'Spotlike',
           headerLeft: () => (
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Icon.Button
                 name="ios-menu"
                 size={25}
@@ -104,16 +115,16 @@ const HomeStackScreen = ({navigation}) => {
             </View>
           ),
           headerRight: () => (
-            <View style={{flexDirection: 'row', marginRight: 10}}>
+            <View style={{ flexDirection: 'row', marginRight: 10 }}>
               <Icon.Button
                 name="ios-search"
                 size={25}
                 color={colors.text}
                 backgroundColor={colors.background}
-                onPress={() => {}}
+                onPress={() => { }}
               />
               <TouchableOpacity
-                style={{paddingHorizontal: 10, marginTop: 5}}
+                style={{ paddingHorizontal: 10, marginTop: 5 }}
                 onPress={() => {
                   navigation.navigate('Profile');
                 }}>
@@ -133,36 +144,8 @@ const HomeStackScreen = ({navigation}) => {
   );
 };
 
-const NotificationStackScreen = ({navigation}) => (
-  <NotificationStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#1f65ff',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
-    <NotificationStack.Screen
-      name="Notifications"
-      component={NotificationScreen}
-      options={{
-        headerLeft: () => (
-          <Icon.Button
-            name="ios-menu"
-            size={25}
-            backgroundColor="#1f65ff"
-            onPress={() => navigation.openDrawer()}
-          />
-        ),
-      }}
-    />
-  </NotificationStack.Navigator>
-);
-
-const ProfileStackScreen = ({navigation}) => {
-  const {colors} = useTheme();
+const ProfileStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
 
   return (
     <ProfileStack.Navigator
@@ -180,7 +163,7 @@ const ProfileStackScreen = ({navigation}) => {
         options={{
           title: '',
           headerLeft: () => (
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <Icon.Button
                 name="ios-menu"
                 size={25}
@@ -191,7 +174,7 @@ const ProfileStackScreen = ({navigation}) => {
             </View>
           ),
           headerRight: () => (
-            <View style={{marginRight: 10}}>
+            <View style={{ marginRight: 10 }}>
               <MaterialCommunityIcons.Button
                 name="account-edit"
                 size={25}
