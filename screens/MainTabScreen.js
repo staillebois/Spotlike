@@ -10,14 +10,15 @@ import HomeScreen from './HomeScreen';
 import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import EditProfileScreen from './EditProfileScreen';
+import CameraScreen from './CameraScreen';
 
 import { useTheme, Avatar } from 'react-native-paper';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeStack = createStackNavigator();
-const NotificationStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const CameraStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -47,7 +48,7 @@ const MainTabScreen = () => (
     />
     <Tab.Screen
       name="Camera"
-      component={ProfileStackScreen}
+      component={CameraStackScreen}
       options={{
         tabBarLabel: '∘',
         tabBarColor: '#1f65ff',
@@ -194,5 +195,43 @@ const ProfileStackScreen = ({ navigation }) => {
         component={EditProfileScreen}
       />
     </ProfileStack.Navigator>
+  );
+};
+
+const CameraStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+
+  return (
+    <CameraStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.background,
+          shadowColor: colors.background, // iOS
+          elevation: 0, // Android
+        },
+        headerTintColor: colors.text,
+      }}>
+      <CameraStack.Screen
+        name="Camera"
+        component={CameraScreen}
+        unmountOnBlur={true}
+        options={{
+          title: '',
+          unmountOnBlur: 'true',
+          headerTransparent: 'true',
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                iconStyle={{marginLeft: 8}}
+                backgroundColor='rgba(52, 52, 52, 0.6)'
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+        }}
+      />
+    </CameraStack.Navigator>
   );
 };
