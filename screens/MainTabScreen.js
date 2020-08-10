@@ -214,10 +214,8 @@ const CameraStackScreen = ({ navigation }) => {
       <CameraStack.Screen
         name="Camera"
         component={CameraScreen}
-        unmountOnBlur={true}
         options={{
           title: '',
-          unmountOnBlur: 'true',
           headerTransparent: 'true',
           headerLeft: () => (
             <View style={{ marginLeft: 10 }}>
