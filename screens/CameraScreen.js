@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { Camera } from 'expo-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -160,7 +160,7 @@ const CameraScreen = (props) => {
     return <View />;
   }
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Camera
         ref={cameraRef}
         style={{ flex: 1 }}
@@ -177,7 +177,7 @@ const CameraScreen = (props) => {
           {isPreview && renderCancelPreviewButton()}
         </View>
       </Camera>
-    </View>
+    </SafeAreaView>
   );
 }
 

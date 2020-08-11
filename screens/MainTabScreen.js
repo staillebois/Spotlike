@@ -23,29 +23,7 @@ const CameraStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Home" activeColor="#fff">
-    <Tab.Screen
-      name="Home"
-      component={HomeStackScreen}
-      options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#d02860',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Top"
-      component={ProfileStackScreen}
-      options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#FFAB00',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="map-marker-check" color={color} size={26} />
-        ),
-      }}
-    />
+  <Tab.Navigator initialRouteName="Camera" activeColor="#fff">
     <Tab.Screen
       name="Camera"
       component={CameraStackScreen}
@@ -57,6 +35,28 @@ const MainTabScreen = () => (
         ),
       }}
     />
+    <Tab.Screen
+      name="Home"
+      component={HomeStackScreen}
+      options={{
+        tabBarLabel: '∘',
+        tabBarColor: '#d02860',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
+        ),
+      }}
+    />
+    {/* <Tab.Screen
+      name="Top"
+      component={ProfileStackScreen}
+      options={{
+        tabBarLabel: '∘',
+        tabBarColor: '#FFAB00',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="map-marker-check" color={color} size={26} />
+        ),
+      }}
+    /> */}
     <Tab.Screen
       name="Explore"
       component={ExploreScreen}
@@ -222,7 +222,7 @@ const CameraStackScreen = ({ navigation }) => {
               <Icon.Button
                 name="ios-menu"
                 size={25}
-                iconStyle={{marginLeft: 8}}
+                iconStyle={{ marginLeft: 8 }}
                 backgroundColor='rgba(52, 52, 52, 0.6)'
                 onPress={() => navigation.openDrawer()}
               />
