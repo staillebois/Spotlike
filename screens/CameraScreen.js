@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView, StatusBar } from 'react-native';
 import { Camera } from 'expo-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from '@react-navigation/native';
+import * as MediaLibrary from 'expo-media-library';
 
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -13,8 +15,11 @@ const CameraScreen = (props) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [picture, setPicture] = useState(null); 
 
   const cameraRef = useRef();
+  const theme = useTheme();
 
   useEffect(() => {
     props.navigation.addListener('focus', () => {
@@ -26,6 +31,7 @@ const CameraScreen = (props) => {
     });
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -35,9 +41,6 @@ const CameraScreen = (props) => {
   };
 
   const flip = () => {
-    if (isPreview) {
-      return;
-    }
     setType(
       type === Camera.Constants.Type.back
         ? Camera.Constants.Type.front
@@ -47,21 +50,75 @@ const CameraScreen = (props) => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.5, base64: true, skipProcessing: true };
+      const options = { base64: true, skipProcessing: true };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.uri;
       if (source) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
-        console.log("picture source", source);
+        setPicture(source);
       }
     }
   };
 
+  const savePicture = async () => {
+    if(picture){
+      const asset = await MediaLibrary.createAssetAsync(picture);
+      setPicture(null);
+      setIsPreview(false);
+    }
+  }
+
   const cancelPreview = async () => {
     await cameraRef.current.resumePreview();
+    setPicture(null);
     setIsPreview(false);
   };
+
+  const flashOn = () => {
+    setFlash(Camera.Constants.FlashMode.on)
+  }
+
+  const flashOff = () => {
+    setFlash(Camera.Constants.FlashMode.off)
+  }
+
+  const flashAuto = () => {
+    setFlash(Camera.Constants.FlashMode.auto)
+  }
+
+  const renderFlashAutoButton = () => (
+    <MaterialCommunityIcons.Button
+      name="flash-auto"
+      size={30}
+      disabled={!isCameraReady}
+      iconStyle={{ marginLeft: 8 }}
+      backgroundColor='rgba(52, 52, 52, 0)'
+      onPress={() => flashOn()}
+    />
+  );
+
+  const renderFlashOnButton = () => (
+    <MaterialCommunityIcons.Button
+      name="flash"
+      size={30}
+      disabled={!isCameraReady}
+      iconStyle={{ marginLeft: 8 }}
+      backgroundColor='rgba(52, 52, 52, 0)'
+      onPress={() => flashOff()}
+    />
+  );
+
+  const renderFlashOffButton = () => (
+    <MaterialCommunityIcons.Button
+      name="flash-off"
+      size={30}
+      disabled={!isCameraReady}
+      iconStyle={{ marginLeft: 8 }}
+      backgroundColor='rgba(52, 52, 52, 0)'
+      onPress={() => flashAuto()}
+    />
+  );
 
   const renderDefaultButton = () => (
     <View
@@ -73,9 +130,14 @@ const CameraScreen = (props) => {
       <TouchableOpacity
         style={{
           flex: 1,
-          backgroundColor: '#ffffff',
           alignSelf: 'flex-end',
-        }} />
+          alignItems: 'flex-start',
+          marginBottom: 8,
+        }}>
+        {flash === Camera.Constants.FlashMode.auto && renderFlashAutoButton()}
+        {flash === Camera.Constants.FlashMode.on && renderFlashOnButton()}
+        {flash === Camera.Constants.FlashMode.off && renderFlashOffButton()}
+      </TouchableOpacity>
       <TouchableOpacity
         style={{
           flex: 1,
@@ -110,7 +172,7 @@ const CameraScreen = (props) => {
     </View>
   );
 
-  const renderCancelPreviewButton = () => (
+  const renderPreviewButton = () => (
     <View
       style={{
         flex: 1,
@@ -123,7 +185,7 @@ const CameraScreen = (props) => {
           marginBottom: 8,
         }}>
         <Icon.Button
-          name="ios-close"
+          name="ios-close-circle"
           size={30}
           disabled={!isCameraReady}
           iconStyle={{ marginLeft: 8 }}
@@ -144,7 +206,7 @@ const CameraScreen = (props) => {
           disabled={!isCameraReady}
           iconStyle={{ marginLeft: 8 }}
           backgroundColor='rgba(52, 52, 52, 0)'
-          onPress={() => cancelPreview()}
+          onPress={() => savePicture()}
         />
       </TouchableOpacity>
     </View>
@@ -161,10 +223,12 @@ const CameraScreen = (props) => {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
       <Camera
         ref={cameraRef}
         style={{ flex: 1 }}
         type={type}
+        flashMode={flash}
         ratio='16:9'
         onCameraReady={onCameraReady}>
         <View
@@ -174,7 +238,7 @@ const CameraScreen = (props) => {
             flexDirection: 'row',
           }}>
           {!isPreview && renderDefaultButton()}
-          {isPreview && renderCancelPreviewButton()}
+          {isPreview && renderPreviewButton()}
         </View>
       </Camera>
     </SafeAreaView>

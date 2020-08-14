@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeScreen from './HomeScreen';
+import SpotScreen from './SpotScreen';
 import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import EditProfileScreen from './EditProfileScreen';
@@ -16,31 +16,31 @@ import { useTheme, Avatar } from 'react-native-paper';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const HomeStack = createStackNavigator();
+const SpotStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const CameraStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Camera" activeColor="#fff">
+  <Tab.Navigator initialRouteName="Spot" activeColor="#fff">
     <Tab.Screen
       name="Camera"
       component={CameraStackScreen}
       options={{
         tabBarLabel: '∘',
-        tabBarColor: '#1f65ff',
+        tabBarColor: '#d02860',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="camera-control" color={color} size={26} />
         ),
       }}
     />
     <Tab.Screen
-      name="Home"
-      component={HomeStackScreen}
+      name="Spot"
+      component={SpotStackScreen}
       options={{
         tabBarLabel: '∘',
-        tabBarColor: '#d02860',
+        tabBarColor: '#1f65ff',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
         ),
@@ -84,10 +84,10 @@ const MainTabScreen = () => (
 
 export default MainTabScreen;
 
-const HomeStackScreen = ({ navigation }) => {
+const SpotStackScreen = ({ navigation }) => {
   const { colors } = useTheme();
   return (
-    <HomeStack.Navigator
+    <SpotStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.background,
@@ -99,9 +99,9 @@ const HomeStackScreen = ({ navigation }) => {
           fontWeight: 'bold',
         },
       }}>
-      <HomeStack.Screen
-        name="Home"
-        component={HomeScreen}
+      <SpotStack.Screen
+        name="Spot"
+        component={SpotScreen}
         options={{
           title: 'Spotlike',
           headerLeft: () => (
@@ -141,7 +141,7 @@ const HomeStackScreen = ({ navigation }) => {
           ),
         }}
       />
-    </HomeStack.Navigator>
+    </SpotStack.Navigator>
   );
 };
 
