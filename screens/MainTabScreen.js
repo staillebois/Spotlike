@@ -23,15 +23,15 @@ const CameraStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Spot" activeColor="#fff">
+  <Tab.Navigator initialRouteName="Spot" inactiveColor="grey">
     <Tab.Screen
       name="Camera"
       component={CameraStackScreen}
       options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#d02860',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="camera-control" color={color} size={26} />
+        tabBarLabel: '',
+        tabBarColor: 'black',
+        tabBarIcon: ({ color, focused  }) => (
+          <MaterialCommunityIcons name="camera-control" color={focused  ? '#FFDE03' : color} size={26} />
         ),
       }}
     />
@@ -39,10 +39,10 @@ const MainTabScreen = () => (
       name="Spot"
       component={SpotStackScreen}
       options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#1f65ff',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
+        tabBarLabel: '',
+        tabBarColor: 'black',
+        tabBarIcon: ({ color, focused }) => (
+          <MaterialCommunityIcons name="cards-heart" color={focused ? '#00897B' : color} size={26} />
         ),
       }}
     />
@@ -61,10 +61,10 @@ const MainTabScreen = () => (
       name="Explore"
       component={ExploreScreen}
       options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#00897B',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="map-marker-radius" color={color} size={26} />
+        tabBarLabel: '',
+        tabBarColor: 'black',
+        tabBarIcon: ({ color, focused }) => (
+          <MaterialCommunityIcons name="map-marker-radius" color={focused ? '#d02860' : color} size={26} />
         ),
       }}
     />
@@ -72,10 +72,10 @@ const MainTabScreen = () => (
       name="Profile"
       component={ProfileStackScreen}
       options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#694fad',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="account" color={color} size={26} />
+        tabBarLabel: '',
+        tabBarColor: 'black',
+        tabBarIcon: ({ color, focused }) => (
+          <MaterialCommunityIcons name="account" color={focused ? '#694fad' : color} size={26} />
         ),
       }}
     />
