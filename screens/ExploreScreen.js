@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  StatusBar,
+  SafeAreaView
 } from "react-native";
 import MapView, {PROVIDER_GOOGLE} from "react-native-maps";
 
@@ -127,7 +129,8 @@ const ExploreScreen = () => {
   const _scrollView = React.useRef(null);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
       <MapView
         ref={_map}
         initialRegion={state.region}
@@ -248,7 +251,7 @@ const ExploreScreen = () => {
           </View>
         ))}
       </Animated.ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

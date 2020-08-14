@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import { View, SafeAreaView, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import {
   Avatar,
   Title,
@@ -9,13 +9,16 @@ import {
 } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from '@react-navigation/native';
 
 const ProfileScreen = () => {
 
-  return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
+  const theme = useTheme();
 
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <ScrollView>
         <View style={styles.userInfoSection}>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <Avatar.Image
@@ -95,8 +98,8 @@ const ProfileScreen = () => {
             </View>
           </TouchableRipple>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView >
+    </SafeAreaView >
   );
 };
 

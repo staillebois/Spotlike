@@ -6,35 +6,47 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeScreen from './HomeScreen';
+import SpotScreen from './SpotScreen';
 import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import EditProfileScreen from './EditProfileScreen';
+import CameraScreen from './CameraScreen';
 
 import { useTheme, Avatar } from 'react-native-paper';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const HomeStack = createStackNavigator();
-const NotificationStack = createStackNavigator();
+const SpotStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const CameraStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Home" activeColor="#fff">
+  <Tab.Navigator initialRouteName="Spot" activeColor="#fff">
     <Tab.Screen
-      name="Home"
-      component={HomeStackScreen}
+      name="Camera"
+      component={CameraStackScreen}
       options={{
         tabBarLabel: '∘',
         tabBarColor: '#d02860',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="camera-control" color={color} size={26} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Spot"
+      component={SpotStackScreen}
+      options={{
+        tabBarLabel: '∘',
+        tabBarColor: '#1f65ff',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="cards-heart" color={color} size={26} />
         ),
       }}
     />
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Top"
       component={ProfileStackScreen}
       options={{
@@ -44,18 +56,7 @@ const MainTabScreen = () => (
           <MaterialCommunityIcons name="map-marker-check" color={color} size={26} />
         ),
       }}
-    />
-    <Tab.Screen
-      name="Camera"
-      component={ProfileStackScreen}
-      options={{
-        tabBarLabel: '∘',
-        tabBarColor: '#1f65ff',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="camera-control" color={color} size={26} />
-        ),
-      }}
-    />
+    /> */}
     <Tab.Screen
       name="Explore"
       component={ExploreScreen}
@@ -83,10 +84,10 @@ const MainTabScreen = () => (
 
 export default MainTabScreen;
 
-const HomeStackScreen = ({ navigation }) => {
+const SpotStackScreen = ({ navigation }) => {
   const { colors } = useTheme();
   return (
-    <HomeStack.Navigator
+    <SpotStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.background,
@@ -98,9 +99,9 @@ const HomeStackScreen = ({ navigation }) => {
           fontWeight: 'bold',
         },
       }}>
-      <HomeStack.Screen
-        name="Home"
-        component={HomeScreen}
+      <SpotStack.Screen
+        name="Spot"
+        component={SpotScreen}
         options={{
           title: 'Spotlike',
           headerLeft: () => (
@@ -140,7 +141,7 @@ const HomeStackScreen = ({ navigation }) => {
           ),
         }}
       />
-    </HomeStack.Navigator>
+    </SpotStack.Navigator>
   );
 };
 
@@ -194,5 +195,41 @@ const ProfileStackScreen = ({ navigation }) => {
         component={EditProfileScreen}
       />
     </ProfileStack.Navigator>
+  );
+};
+
+const CameraStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+
+  return (
+    <CameraStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.background,
+          shadowColor: colors.background, // iOS
+          elevation: 0, // Android
+        },
+        headerTintColor: colors.text,
+      }}>
+      <CameraStack.Screen
+        name="Camera"
+        component={CameraScreen}
+        options={{
+          title: '',
+          headerTransparent: 'true',
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                iconStyle={{ marginLeft: 8 }}
+                backgroundColor='rgba(52, 52, 52, 0.6)'
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+        }}
+      />
+    </CameraStack.Navigator>
   );
 };
