@@ -92,17 +92,18 @@ const SpotScreen = () => {
         onPress={() => swipeRef.current.swipeLeft()}
         style={styles.dislikeButton}>
         <MaterialCommunityIcons
-          name="close-circle"
-          size={50}
+          name="close"
+          size={20}
           style={styles.dislikeIcon}
         />
       </TouchableOpacity>
+      <View style={{flex: 1}}></View>
       <TouchableOpacity
         onPress={()  => swipeRef.current.swipeRight()}
         style={styles.likeButton}>
         <MaterialCommunityIcons
-          name="heart-circle"
-          size={50}
+          name="heart"
+          size={20}
           style={styles.likeIcon}
         />
       </TouchableOpacity>
@@ -134,18 +135,16 @@ const styles = StyleSheet.create({
   },
   buttonView: { 
     flexDirection: 'row',
-     alignItems: 'center'
   },
   dislikeButton: {
-    flex: 1,
-    backgroundColor: '#ffffff',
+    // flex: 1,
+    backgroundColor: '#d02860',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 15,
+    padding: 10,
     marginLeft: 40,
     marginRight: 10,
     marginBottom: 50,
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
@@ -153,15 +152,14 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   likeButton: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    borderRadius: 20,
+    // flex: 1,
+    backgroundColor: '#00897B',
+    // alignItems: 'center',
+    borderRadius: 15,
+    padding: 10,
     marginLeft: 10,
     marginRight: 40,
     marginBottom: 50,
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
@@ -169,9 +167,9 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   dislikeIcon: {
-    color: '#d02860',
+    color: '#fff',
   },
   likeIcon: {
-    color: '#00897B' 
+    color: '#fff' 
   }
 })
