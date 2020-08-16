@@ -26,21 +26,12 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const ExploreScreen = () => {
 
-  const [location, setLocation] = useState(null);
-  const [region, setRegion] = useState(null);
   const [hasPermission, setHasPermission] = useState(false);
+  const [region, setRegion] = useState(null);
+  const [isRegionChanged, setIsRegionChanged] = useState(false);
 
-  const initialMapState = {
-    markers,
-    region: {
-      latitude: 48.8071472,
-      longitude: 2.3883148,
-      latitudeDelta: 0.04864195044303443,
-      longitudeDelta: 0.040142817690068,
-    },
-  };
-
-  const [state, setState] = useState(initialMapState);
+  const [currentMarkers, setCurrentMarkers] = useState(markers);
+  const [currentPositionMarker, setCurrentPositionMarker] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -51,8 +42,21 @@ const ExploreScreen = () => {
         setHasPermission(true);
       }
 
-      let currentPosition = await Location.getCurrentPositionAsync({});
-      setLocation(currentPosition);
+      if (isRegionChanged === false) {
+        let currentPosition = await Location.getLastKnownPositionAsync({});
+        setRegion({
+          latitude: currentPosition.coords.latitude,
+          longitude: currentPosition.coords.longitude,
+          latitudeDelta: 0.04864195044303443,
+          longitudeDelta: 0.040142817690068,
+        })
+        setCurrentPositionMarker({
+          coordinate: {
+            latitude: currentPosition.coords.latitude,
+            longitude: currentPosition.coords.longitude,
+          }
+        })
+      }
     })();
   });
 
@@ -61,12 +65,17 @@ const ExploreScreen = () => {
   }
 
   const displayCurrentPosition = () => {
-    setRegion(state.region)
+    setIsRegionChanged(false)
   }
 
   const onRegionChangeComplete = (region) => {
+    setIsRegionChanged(true)
     setRegion(null);
   }
+
+  const displayCurrentPositionMarker = () => (
+    <MapView.Marker coordinate={currentPositionMarker.coordinate} />
+  )
 
   if (hasPermission === false) {
     return <Text>No access to location</Text>;
@@ -76,14 +85,13 @@ const ExploreScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'dark-content'} />
       <MapView
-        initialRegion={state.region}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         customMapStyle={mapStandardStyle}
         region={region}
         onRegionChangeComplete={onRegionChangeComplete}
       >
-        {state.markers.map((marker, index) => {
+        {currentMarkers.map((marker, index) => {
           return (
             <MapView.Marker key={index} coordinate={marker.coordinate} onPress={(e) => onMarkerPress(e)}>
               <Animated.View style={[styles.markerWrap]}>
@@ -96,6 +104,7 @@ const ExploreScreen = () => {
             </MapView.Marker>
           );
         })}
+        {currentPositionMarker !== null && displayCurrentPositionMarker()}
       </MapView>
       <Animated.View
         horizontal

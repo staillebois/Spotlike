@@ -8,7 +8,7 @@ const Images = [
 export const markers = [
     {
       coordinate: {
-        latitude: 48.8071472,
+        latitude: 48.8271472,
         longitude: 2.3883148,
       },
       title: "Cascade des tufs, France",
@@ -31,7 +31,7 @@ export const markers = [
     {
       coordinate: {
         latitude: 48.8045148,
-        longitude: 2.3884650,
+        longitude: 2.3854650,
       },
       title: "Le Mont Saint-Michel, France",
       description: "This is the third best place",
@@ -41,8 +41,8 @@ export const markers = [
     },
     {
       coordinate: {
-        latitude: 48.8173424,
-        longitude: 2.3887009,
+        latitude: 48.8153424,
+        longitude: 2.3807009,
       },
       title: "Trouville, France",
       description: "This is the fourth best place",
