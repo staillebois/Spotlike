@@ -24,7 +24,7 @@ const ExploreStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Explore" inactiveColor="grey">
+  <Tab.Navigator initialRouteName="Camera" inactiveColor="grey">
     <Tab.Screen
       name="Camera"
       component={CameraStackScreen}
