@@ -19,11 +19,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const SpotStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const CameraStack = createStackNavigator();
+const ExploreStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Spot" inactiveColor="grey">
+  <Tab.Navigator initialRouteName="Explore" inactiveColor="grey">
     <Tab.Screen
       name="Camera"
       component={CameraStackScreen}
@@ -109,6 +110,7 @@ const SpotStackScreen = ({ navigation }) => {
               <Icon.Button
                 name="ios-menu"
                 size={25}
+                iconStyle={{ marginLeft: 8 }}
                 color={colors.text}
                 backgroundColor={colors.background}
                 onPress={() => navigation.openDrawer()}
@@ -117,13 +119,6 @@ const SpotStackScreen = ({ navigation }) => {
           ),
           headerRight: () => (
             <View style={{ flexDirection: 'row', marginRight: 10 }}>
-              <Icon.Button
-                name="ios-search"
-                size={25}
-                color={colors.text}
-                backgroundColor={colors.background}
-                onPress={() => { }}
-              />
               <TouchableOpacity
                 style={{ paddingHorizontal: 10, marginTop: 5 }}
                 onPress={() => {
@@ -168,6 +163,7 @@ const ProfileStackScreen = ({ navigation }) => {
               <Icon.Button
                 name="ios-menu"
                 size={25}
+                iconStyle={{ marginLeft: 8 }}
                 backgroundColor={colors.background}
                 color={colors.text}
                 onPress={() => navigation.openDrawer()}
@@ -231,5 +227,41 @@ const CameraStackScreen = ({ navigation }) => {
         }}
       />
     </CameraStack.Navigator>
+  );
+};
+
+const ExploreStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+
+  return (
+    <ExploreStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.background,
+          shadowColor: colors.background, // iOS
+          elevation: 0, // Android
+        },
+        headerTintColor: colors.text,
+      }}>
+      <ExploreStack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          title: '',
+          headerTransparent: 'true',
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                iconStyle={{ marginLeft: 8 }}
+                backgroundColor='rgba(52, 52, 52, 0.6)'
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+        }}
+      />
+    </ExploreStack.Navigator>
   );
 };
