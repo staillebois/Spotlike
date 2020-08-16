@@ -4,20 +4,15 @@ import {
   StatusBar,
   SafeAreaView,
   View,
-  Dimensions,
   Image,
-  Button,
   TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 
 import Swiper from 'react-native-deck-swiper';
 import { HomeScreenPics } from '../constants/Pics'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SpotScreen = () => {
-
-  const theme = useTheme();
   const swipeRef = useRef();
 
   const Card = ({ pic }) => (
@@ -34,8 +29,8 @@ const SpotScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <View style={{flex: 1}}>
+      <StatusBar barStyle={'dark-content'} />
+      <View style={styles.container}>
         <Swiper
           useViewOverflow={Platform.OS === 'ios'}
           ref={swipeRef}
@@ -92,54 +87,23 @@ const SpotScreen = () => {
         >
         </Swiper>
         </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+      <View style={styles.buttonView}>
       <TouchableOpacity
         onPress={() => swipeRef.current.swipeLeft()}
-        style={{
-          flex: 1,
-          backgroundColor: '#ffffff',
-          alignItems: 'center',
-          borderRadius: 20,
-          marginLeft: 40,
-          marginRight: 10,
-          marginBottom: 50,
-          borderColor: '#E8E8E8',
-          borderWidth: 1,
-          shadowColor: '#ccc',
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.5,
-          shadowRadius: 5,
-          elevation: 10,
-        }}>
+        style={styles.dislikeButton}>
         <MaterialCommunityIcons
           name="close-circle"
           size={50}
-          style={{ color: '#d02860',
-         }}
+          style={styles.dislikeIcon}
         />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={()  => swipeRef.current.swipeRight()}
-        style={{
-          flex: 1,
-          backgroundColor: '#ffffff',
-          alignItems: 'center',
-          borderRadius: 20,
-          marginLeft: 10,
-          marginRight: 40,
-          marginBottom: 50,
-          borderColor: '#E8E8E8',
-          borderWidth: 1,
-          shadowColor: '#ccc',
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.5,
-          shadowRadius: 5,
-          elevation: 10,
-        }}>
+        style={styles.likeButton}>
         <MaterialCommunityIcons
           name="heart-circle"
           size={50}
-          style={{ color: '#00897B' }}
+          style={styles.likeIcon}
         />
       </TouchableOpacity>
       </View>
@@ -167,5 +131,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 50,
     backgroundColor: 'transparent'
+  },
+  buttonView: { 
+    flexDirection: 'row',
+     alignItems: 'center'
+  },
+  dislikeButton: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginLeft: 40,
+    marginRight: 10,
+    marginBottom: 50,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  likeButton: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginLeft: 10,
+    marginRight: 40,
+    marginBottom: 50,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  dislikeIcon: {
+    color: '#d02860',
+  },
+  likeIcon: {
+    color: '#00897B' 
   }
 })
