@@ -1,42 +1,48 @@
-import React from 'react';
-import { View, SafeAreaView, StyleSheet, ScrollView, StatusBar } from 'react-native';
-import {
-  Avatar,
-  Title,
-  Caption,
-  Text,
-} from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, StatusBar, Dimensions, FlatList, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { Avatar, Title, Caption } from 'react-native-paper';
+import { HomeScreenPics } from '../constants/Pics'
+import * as Animatable from 'react-native-animatable';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { FlatGrid } from 'react-native-super-grid';
+const { width } = Dimensions.get("window");
 
 const ProfileScreen = () => {
 
-  const [items, setItems] = React.useState([
-    { name: 'TURQUOISE', code: '#1abc9c' },
-    { name: 'EMERALD', code: '#2ecc71' },
-    { name: 'PETER RIVER', code: '#3498db' },
-    { name: 'AMETHYST', code: '#9b59b6' },
-    { name: 'WET ASPHALT', code: '#34495e' },
-    { name: 'GREEN SEA', code: '#16a085' },
-    { name: 'NEPHRITIS', code: '#27ae60' },
-    { name: 'BELIZE HOLE', code: '#2980b9' },
-    { name: 'WISTERIA', code: '#8e44ad' },
-    { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
-    { name: 'SUN FLOWER', code: '#f1c40f' },
-    { name: 'CARROT', code: '#e67e22' },
-    { name: 'ALIZARIN', code: '#e74c3c' },
-    { name: 'CLOUDS', code: '#ecf0f1' },
-    { name: 'CONCRETE', code: '#95a5a6' },
-    { name: 'ORANGE', code: '#f39c12' },
-    { name: 'PUMPKIN', code: '#d35400' },
-    { name: 'POMEGRANATE', code: '#c0392b' },
-    { name: 'SILVER', code: '#bdc3c7' },
-  ]);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [modalPic, setModalPic] = useState('');
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+  const showModalImage = (visible, pic) => {
+    setIsShowModal(visible)
+    setModalPic(pic)
+  }
+
+  const renderImages = ({ item }) => {
+    return (
+      <Animatable.View
+        style={{ flex: 1, alignItems: 'flex-start' }}
+        animation="zoomIn"
+        delay={item.id * 100}
+        useNativeDriver={true}
+      >
+        <TouchableOpacity
+          key={item.id}
+          style={{ flex: 1 }}
+          onPress={() => { showModalImage(true, item.pic) }}>
+          <Image
+            source={item.pic}
+            style={{
+              height: width / 3,
+              width: width / 3,
+            }}
+          />
+        </TouchableOpacity>
+      </Animatable.View>
+    );
+  };
+
+  const renderGallery = () => (
+    <View style={styles.container}>
       <View style={styles.userInfoSection}>
         <View style={{ flexDirection: 'row', marginTop: 15 }}>
           <Avatar.Image
@@ -67,18 +73,40 @@ const ProfileScreen = () => {
           <Caption>Photos</Caption>
         </View>
       </View>
-        <FlatGrid
-          itemDimension={130}
-          data={items}
-          style={styles.gridView}
-          spacing={10}
-          renderItem={({ item }) => (
-            <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemCode}>{item.code}</Text>
-            </View>
-          )}
+      <FlatList
+        horizontal={false}
+        numColumns={3}
+        data={HomeScreenPics}
+        keyExtractor={item => item.id}
+        renderItem={renderImages}
+      />
+    </View>
+  );
+
+  const renderModalImage = () => (
+    <View style={styles.container}>
+      <ImageBackground
+        source={modalPic}
+        style={styles.image}
+      >
+        <TouchableOpacity
+        onPress={() => showModalImage(false, '')}
+        style={styles.closeButton}>
+        <MaterialCommunityIcons
+          name="close"
+          size={20}
+          style={styles.closeIcon}
         />
+      </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'dark-content'} />
+      {isShowModal === false && renderGallery()}
+      {isShowModal === true && renderModalImage()}
     </SafeAreaView >
   );
 };
@@ -139,4 +167,27 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#fff',
   },
+  image: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'contain',
+    alignItems: 'flex-start'
+  },
+  closeButton: {
+    backgroundColor: '#d02860',
+    alignItems: 'flex-start',
+    borderRadius: 15,
+    padding: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  closeIcon: {
+    color: '#fff',
+  }
 });
