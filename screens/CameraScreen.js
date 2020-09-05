@@ -181,7 +181,6 @@ const CameraScreen = (props) => {
       }}>
       <TouchableOpacity
         style={{
-          alignSelf: 'flex-end',
           marginBottom: 8,
         }}>
         <Icon.Button

@@ -4,7 +4,7 @@ import {
   StatusBar,
   SafeAreaView,
   View,
-  Image,
+  ImageBackground,
   TouchableOpacity
 } from 'react-native';
 
@@ -16,7 +16,29 @@ const SpotScreen = () => {
   const swipeRef = useRef();
 
   const Card = ({ pic }) => (
-      <Image source={pic} style={styles.image}/>
+    <ImageBackground source={pic} style={styles.image} imageStyle={{ borderRadius: 10}}>
+      <View style={styles.buttonView}>
+        <TouchableOpacity
+          onPress={() => swipeRef.current.swipeLeft()}
+          style={styles.dislikeButton}>
+          <MaterialCommunityIcons
+            name="close"
+            size={20}
+            style={styles.dislikeIcon}
+          />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+        <TouchableOpacity
+          onPress={() => swipeRef.current.swipeRight()}
+          style={styles.likeButton}>
+          <MaterialCommunityIcons
+            name="heart"
+            size={20}
+            style={styles.likeIcon}
+          />
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   )
 
   const dislike = () => (
@@ -86,27 +108,6 @@ const SpotScreen = () => {
           disableBottomSwipe
         >
         </Swiper>
-        </View>
-      <View style={styles.buttonView}>
-      <TouchableOpacity
-        onPress={() => swipeRef.current.swipeLeft()}
-        style={styles.dislikeButton}>
-        <MaterialCommunityIcons
-          name="close"
-          size={20}
-          style={styles.dislikeIcon}
-        />
-      </TouchableOpacity>
-      <View style={{flex: 1}}></View>
-      <TouchableOpacity
-        onPress={()  => swipeRef.current.swipeRight()}
-        style={styles.likeButton}>
-        <MaterialCommunityIcons
-          name="heart"
-          size={20}
-          style={styles.likeIcon}
-        />
-      </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -117,34 +118,36 @@ export default SpotScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#212121',
   },
-  image: { 
-    flex: 1, 
-    width: null, 
-    height: null,
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
     borderColor: '#E8E8E8',
-    marginBottom: 120,
-    borderWidth: 5,
-    borderRadius: 10, 
-    resizeMode: 'cover' 
+    marginBottom: 70,
+    borderWidth: 3,
+    borderRadius: 10,
+    resizeMode: 'cover'
   },
   text: {
     textAlign: 'center',
     fontSize: 50,
     backgroundColor: 'transparent'
   },
-  buttonView: { 
+  buttonView: {
+    flex: 1,
     flexDirection: 'row',
+    // alignContent: 'flex-end',
+    // alignSelf: 'flex-end',
   },
   dislikeButton: {
-    // flex: 1,
     backgroundColor: '#d02860',
-    alignItems: 'center',
+    alignSelf: 'flex-end',
     borderRadius: 15,
     padding: 10,
     marginLeft: 40,
-    marginRight: 10,
-    marginBottom: 50,
+    marginBottom: 40,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
@@ -152,14 +155,12 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   likeButton: {
-    // flex: 1,
     backgroundColor: '#00897B',
-    // alignItems: 'center',
+    alignSelf: 'flex-end',
     borderRadius: 15,
     padding: 10,
-    marginLeft: 10,
     marginRight: 40,
-    marginBottom: 50,
+    marginBottom: 40,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
@@ -170,6 +171,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   likeIcon: {
-    color: '#fff' 
+    color: '#fff'
   }
 })
