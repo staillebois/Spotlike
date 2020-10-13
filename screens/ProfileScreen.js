@@ -89,7 +89,7 @@ const ProfileScreen = () => {
           </View>
         </View>
       </View>
-      <View style={styles.infoBoxWrapper}>
+      {/* <View style={styles.infoBoxWrapper}>
         <View style={[styles.infoBox, {
           borderRightColor: '#666666',
           borderRightWidth: 1
@@ -101,7 +101,7 @@ const ProfileScreen = () => {
           <Title style={{color: 'white'}}>351</Title>
           <Caption style={{color: 'white'}}>Photos</Caption>
         </View>
-      </View>
+      </View> */}
       <FlatList
         horizontal={false}
         numColumns={3}
