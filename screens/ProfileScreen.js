@@ -242,7 +242,7 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       {!isModalImageVisible && !isModalEditVisible && renderGallery()}
       {isModalImageVisible && renderModalImage()}
       {isModalEditVisible && renderModalEdit()}

@@ -51,7 +51,7 @@ const SpotScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       <View style={styles.container}>
         <Swiper
           useViewOverflow={Platform.OS === 'ios'}

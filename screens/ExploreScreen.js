@@ -83,7 +83,7 @@ const ExploreScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       <MapView
         style={styles.container}
         provider={PROVIDER_GOOGLE}

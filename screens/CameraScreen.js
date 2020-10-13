@@ -222,7 +222,7 @@ const CameraScreen = (props) => {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       <Camera
         ref={cameraRef}
         style={{ flex: 1 }}
