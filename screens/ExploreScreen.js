@@ -20,7 +20,7 @@ import { markers, mapStandardStyle } from '../model/mapData';
 import * as Location from 'expo-location';
 
 const { width } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 180;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
@@ -83,7 +83,7 @@ const ExploreScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       <MapView
         style={styles.container}
         provider={PROVIDER_GOOGLE}
@@ -140,21 +140,17 @@ const ExploreScreen = () => {
             resizeMode="cover"
           />
           <View style={styles.textContent}>
-            <Text numberOfLines={1} style={styles.cardtitle}>{markers[0].title}</Text>
-            <Text numberOfLines={1} style={styles.cardLike}>64 likes</Text>
-            <Text numberOfLines={1} style={styles.cardDescription}>{markers[0].description}</Text>
-            <View style={styles.button}>
+          <Text numberOfLines={1} style={styles.cardLike}>64 likes </Text>
+            <Text numberOfLines={1} style={styles.cardOwner}>[By @Seal]</Text>
+          </View>
+          <View style={styles.button}>
               <TouchableOpacity
                 onPress={() => { }}
-                style={[styles.remove, {
-                  borderColor: '#FF6347',
-                  borderWidth: 1
-                }]}
+                style={styles.removeButton}
               >
-                <Text style={[styles.textSign, { color: '#FF6347' }]}>Remove</Text>
+                <Text style={[styles.textSign, { color: '#FFF' }]}>Remove</Text>
               </TouchableOpacity>
             </View>
-          </View>
         </View>
       </Animated.View>
     </SafeAreaView>
@@ -191,6 +187,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     marginHorizontal: 40,
+    marginBottom: 50,
     shadowColor: "#000",
     shadowRadius: 5,
     shadowOpacity: 0.3,
@@ -206,21 +203,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textContent: {
-    flex: 2,
+    // flex: 1,
+    flexDirection: 'row',
     padding: 10,
   },
-  cardtitle: {
+  cardOwner: {
     fontSize: 14,
-    // marginTop: 5,
-    fontWeight: "bold",
-  },
-  cardDescription: {
-    fontSize: 12,
-    color: "#444",
   },
   cardLike: {
-    fontSize: 12,
-    color: "#444",
+    fontSize: 14,
     fontWeight: "bold",
   },
   markerWrap: {
@@ -235,14 +226,13 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    marginTop: 5
   },
-  remove: {
+  removeButton: {
     width: '100%',
     padding: 5,
+    backgroundColor: '#d02860',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 3
   },
   textSign: {
     fontSize: 14,
