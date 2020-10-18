@@ -5,7 +5,6 @@ import {
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme
 } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { 
   Provider as PaperProvider, 
@@ -13,10 +12,7 @@ import {
   DarkTheme as PaperDarkTheme 
 } from 'react-native-paper';
 
-import { DrawerContent } from './screens/DrawerContent';
-
 import MainTabScreen from './screens/MainTabScreen';
-import SupportScreen from './screens/SupportScreen';
 
 import { AuthContext } from './components/context';
 
@@ -28,8 +24,6 @@ import {YellowBox} from 'react-native';
 
 YellowBox.ignoreWarnings(['Animated: `useNativeDriver`']);
 YellowBox.ignoreWarnings(['Animated.event now requires a second argument for options']);
-
-const Drawer = createDrawerNavigator();
 
 const App = () => {
   // const [isLoading, setIsLoading] = React.useState(true);
@@ -162,10 +156,7 @@ const App = () => {
     <AuthContext.Provider value={authContext}>
     <NavigationContainer theme={theme}>
       { loginState.userToken !== null ? (
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-          <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-          <Drawer.Screen name="SupportScreen" component={SupportScreen} />
-        </Drawer.Navigator>
+        <MainTabScreen></MainTabScreen>
       )
     :
       <RootStackScreen/>

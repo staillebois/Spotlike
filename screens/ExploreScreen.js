@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Animated,
-  Image,
+  ImageBackground,
   TouchableOpacity,
   Dimensions,
   Platform,
@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { markers, mapStandardStyle } from '../model/mapData';
 
@@ -30,8 +30,14 @@ const ExploreScreen = () => {
   const [region, setRegion] = useState(null);
   const [isRegionChanged, setIsRegionChanged] = useState(false);
 
-  const [currentMarkers, setCurrentMarkers] = useState(markers);
-  const [currentPositionMarker, setCurrentPositionMarker] = useState(null);
+  const [loadedMarkers, setLoadedMarkers] = useState(markers);
+
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [toolBarEnabled, setToolBarEnabled] = useState(true);
+
+  const [mapFlex, setMapFlex] = useState(0);
+  const [mapBottom, setMapBottom] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -50,22 +56,15 @@ const ExploreScreen = () => {
           latitudeDelta: 0.04864195044303443,
           longitudeDelta: 0.040142817690068,
         })
-        setCurrentPositionMarker({
-          coordinate: {
-            latitude: currentPosition.coords.latitude,
-            longitude: currentPosition.coords.longitude,
-          }
-        })
       }
     })();
   });
 
-  const onMarkerPress = (mapEventData) => {
-    console.log('marker=' + mapEventData)
-  }
-
-  const displayCurrentPosition = () => {
-    setIsRegionChanged(false)
+  const onMarkerPress = (mapEventData, index) => {
+    setIsPreviewVisible(true)
+    setToolBarEnabled(true)
+    setPreviewIndex(index)
+    setMapBottom(1) // Quick fix for 'toolbarEnabled' on MapView
   }
 
   const onRegionChangeComplete = (region) => {
@@ -73,8 +72,43 @@ const ExploreScreen = () => {
     setRegion(null);
   }
 
-  const displayCurrentPositionMarker = () => (
-    <MapView.Marker coordinate={currentPositionMarker.coordinate} />
+  const onMapPress = () => {
+    setIsPreviewVisible(false)
+  }
+
+  const onMapReady = () => {
+    setMapFlex(1) //Quick fix for 'showsMyLocationButton' on MapView
+  }
+
+  const onRemoveMarker = () => {
+    setIsPreviewVisible(false)
+    setToolBarEnabled(false)
+    loadedMarkers.splice(previewIndex, 1)
+  }
+
+  const displayPreview = () => (
+    <View style={styles.card}>
+    <ImageBackground
+      source={markers[previewIndex].image}
+      style={styles.cardImage}
+      resizeMode="cover"
+    >
+      {/* <View style={styles.button}> */}
+        <TouchableOpacity
+          onPress={onRemoveMarker}
+          style={styles.removeButton}>
+          <MaterialCommunityIcons
+            name="close"
+            style={styles.deleteIcon}
+          />
+        </TouchableOpacity>
+      {/* </View> */}
+    </ImageBackground>
+    <View style={styles.textContent}>
+      <Text numberOfLines={1} style={styles.cardLike}>64 likes </Text>
+        <Text numberOfLines={1} style={styles.cardOwner}>[By @Seal]</Text>
+      </View>
+    </View>
   )
 
   if (hasPermission === false) {
@@ -85,15 +119,19 @@ const ExploreScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'light-content'} />
       <MapView
-        style={styles.container}
+        style={{flex: mapFlex, bottom: mapBottom}}
         provider={PROVIDER_GOOGLE}
         customMapStyle={mapStandardStyle}
         region={region}
         onRegionChangeComplete={onRegionChangeComplete}
+        showsUserLocation={true}
+        toolbarEnabled={toolBarEnabled}
+        onPress={onMapPress}
+        onMapReady={onMapReady}
       >
-        {currentMarkers.map((marker, index) => {
+        {loadedMarkers.map((marker, index) => {
           return (
-            <MapView.Marker key={index} coordinate={marker.coordinate} onPress={(e) => onMarkerPress(e)}>
+            <MapView.Marker key={index} coordinate={marker.coordinate} onPress={(e) => onMarkerPress(e, index)}>
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
                   source={require('../assets/map_marker.png')}
@@ -104,7 +142,6 @@ const ExploreScreen = () => {
             </MapView.Marker>
           );
         })}
-        {currentPositionMarker !== null && displayCurrentPositionMarker()}
       </MapView>
       <Animated.View
         horizontal
@@ -112,46 +149,14 @@ const ExploreScreen = () => {
         contentContainerStyle={{
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0
         }}>
-        <TouchableOpacity
-          style={{
-            marginTop: 8,
-            marginEnd: 10,
-          }}>
-          <MaterialCommunityIcons.Button
-            name="map-marker-radius"
-            size={25}
-            iconStyle={{ marginLeft: 8, }}
-            backgroundColor='rgba(52, 52, 52, 0.6)'
-            onPress={() => displayCurrentPosition()}
-          />
-        </TouchableOpacity>
       </Animated.View>
       <Animated.View
         horizontal
         style={styles.imageView}
         contentContainerStyle={{
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0
-        }}
-      >
-        <View style={styles.card}>
-          <Image
-            source={markers[0].image}
-            style={styles.cardImage}
-            resizeMode="cover"
-          />
-          <View style={styles.textContent}>
-          <Text numberOfLines={1} style={styles.cardLike}>64 likes </Text>
-            <Text numberOfLines={1} style={styles.cardOwner}>[By @Seal]</Text>
-          </View>
-          <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() => { }}
-                style={styles.removeButton}
-              >
-                <Text style={[styles.textSign, { color: '#FFF' }]}>Remove</Text>
-              </TouchableOpacity>
-            </View>
-        </View>
+        }}>
+        {isPreviewVisible && displayPreview()}
       </Animated.View>
     </SafeAreaView>
   );
@@ -228,14 +233,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   removeButton: {
-    width: '100%',
     padding: 5,
     backgroundColor: '#d02860',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginRight: 5,
+    marginTop: 5,
+    borderRadius: 15,
+    alignItems: 'flex-end',
   },
   textSign: {
     fontSize: 14,
     fontWeight: 'bold'
-  }
+  },
+  deleteIcon: {
+    color: '#fff',
+  },
 });
